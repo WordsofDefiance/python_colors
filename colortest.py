@@ -2,7 +2,19 @@
 ''' Resources
 
     * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
+      * Good resource on how to manipulate terminal commands with Python
     * https://askubuntu.com/questions/821157/print-a-256-color-test-pattern-in-the-terminal
+      * Contains links to powerful libraries that do similar things as this, as well as ways
+        to do the same thing in bash
+    * https://github.com/Markus00000/colorschemer/blob/master/colorschemer.py
+      * Contains good explanation on how contrast gets calculated.
+    * https://jonasjacek.github.io/colors/
+      * contains JSON of xterm color/name/hex/rgb/hsl
+
+    TO DO:
+
+    * Figure out a way to check the contrast between foreground and background and only 
+      display the combos with high contrast.       
 '''
 
 
@@ -85,33 +97,36 @@ def allForegroundAndAllBackground():
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='commands', dest='command')
 
-dullForegroundColorsParser = subparsers.add_parser('dullForegroundColors', help='display the 8 dull foreground colors')
-brightForegroundColorsParser = subparsers.add_parser('brightForegroundColors', help='display the 8 bright foreground colors')
-dullBackgroundColorsParser = subparsers.add_parser('dullBackgroundColors', help='display the 8 dull background colors')
-backgroundBrightColorsParser = subparsers.add_parser('brightBackgroundColors', help='display the 8 bright background colors')
-allForegroundColorsParser = subparsers.add_parser('allForegroundColors', help='display 256 foreground colors')
-allBackgroundColorsParser = subparsers.add_parser('allBackgroundColors', help='display 256 background colors')
-allForegroundAllBackgroundParser = subparsers.add_parser('allForegroundAllBackground', help='display all 256 foreground and background colors separately')
-testForegroundOnBackgroundParser = subparsers.add_parser('testFgAndBg', help='Enter a foreground code and a background code and test it out')
+dullForegroundColorsParser = subparsers.add_parser('dullFg', help='display the 8 dull foreground colors')
+brightForegroundColorsParser = subparsers.add_parser('brightFg', help='display the 8 bright foreground colors')
+dullBackgroundColorsParser = subparsers.add_parser('dullBg', help='display the 8 dull background colors')
+backgroundBrightColorsParser = subparsers.add_parser('brightBg', help='display the 8 bright background colors')
+allForegroundColorsParser = subparsers.add_parser('allFg', help='display 256 foreground colors')
+allBackgroundColorsParser = subparsers.add_parser('allBg', help='display 256 background colors')
+allForegroundAllBackgroundParser = subparsers.add_parser('allFgBg', help='display all 256 foreground and background colors separately')
+allForegroundAllBackgroundParser = subparsers.add_parser('getFreaky', help='Display every combination of foreground and background color')
+testForegroundOnBackgroundParser = subparsers.add_parser('test', help='Enter a foreground code and a background code and test it out')
 testForegroundOnBackgroundParser.add_argument('FOREGROUND', type=int, help='foreground, must be between 0 and 256')
 testForegroundOnBackgroundParser.add_argument('BACKGROUND', type=int, help='background, must be between 0 and 256')
 args = parser.parse_args()
 
-if args.command == 'dullForegroundColors':
+if args.command == 'dullFg':
     dullForegroundColors()
-elif args.command == 'brightForegroundColors':
+elif args.command == 'brightFg':
     brightForegroundColors()
-elif args.command == 'dullBackgroundColors':
+elif args.command == 'dullBg':
     dullBackgroundColors()
-elif args.command == 'brightBackgroundColors':
+elif args.command == 'brightBg':
     brightBackgroundColors()
-elif args.command == 'allForegroundColors':
+elif args.command == 'allFg':
     allForegroundColors()
-elif args.command == 'allBackgroundColors':
+elif args.command == 'allBg':
     allBackgroundColors()
-elif args.command == 'allForegroundAllBackground':
+elif args.command == 'allFgBg':
     allForegroundAndAllBackground()
-elif args.command == 'testFgAndBg':
+elif args.command == 'getFreaky':
+    allForegroundAllBackground()
+elif args.command == 'test':
     testForegroundOnBackground(args.FOREGROUND, args.BACKGROUND)
 else:
     parser.print_help()

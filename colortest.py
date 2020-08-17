@@ -1,4 +1,4 @@
-#!/c/Users/david/OneDrive/Documents/localServer/python_colors/bin/python3
+#!/Users/accomazzod/Projects/web/python_colors/bin/python3
 ''' Resources
 
     * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -13,8 +13,8 @@
 
     TO DO:
 
-    * Figure out a way to check the contrast between foreground and background and only 
-      display the combos with high contrast.       
+    * Figure out a way to check the contrast between foreground and background and only
+      display the combos with high contrast.
 '''
 
 
@@ -37,7 +37,7 @@ def brightForegroundColors():
 # 256 Color range
 def allForegroundColors():
     print("All 256 Color Foregrounds")
-    for i in range(0, 257):
+    for i in range(0, 256):
         num = str(i)
         color = f'\033[38;5;{num}m {num} \033[0m \\033[38;5;{num}m'
         sys.stdout.write(color.ljust(4))
@@ -59,17 +59,17 @@ def brightBackgroundColors():
 # Background 256 Colors
 def allBackgroundColors():
     print("All 256 Color Backgrounds")
-    for i in range(0, 257):
+    for i in range(0, 256):
         num = str(i)
         color = f'\033[48;5;{num}m {num} \033[0m \\033[48;5;{num}m'
         sys.stdout.write(color.ljust(4))
         if i % 5 == 0 and i != 0:
             print('')
 
-# Getting Crazy with it 
+# Getting Crazy with it
 def allForegroundAllBackground():
-    for i in range(0, 257):
-        for j in range(0, 257):
+    for i in range(0, 256):
+        for j in range(0, 256):
             foreground = str(j)
             background = str(i)
             color = f'\033[38;5;{foreground}m\033[48;5;{background}m {foreground} on {background}\033[0m '
@@ -79,14 +79,14 @@ def allForegroundAllBackground():
 
 # Test out a foreground on a background
 def testForegroundOnBackground(foreground, background):
-    if foreground and background in range(0, 257):
+    if foreground and background in range(0, 256):
         print(f'Testing {foreground} on {background}')
         print(f'\n\\033[38;5;{foreground}m\\033[48;5;{background}m TEXT HERE \\033[0m\n')
         print(f'\033[38;5;{foreground}m\033[48;5;{background}m{foreground} on {background} test\033[0m')
         print(f'\033[38;5;{foreground}m\033[48;5;{background}mThe quick brown fox jumps over the lazy dog. \033[0m')
         print(f'\033[38;5;{foreground}m\033[48;5;{background}mABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789\033[0m')
     else:
-        print('Both foreground and background number must be between 0 and 256')
+        print('Both foreground and background number must be between 0 and 255')
 
 # Print out all 256 foreground and background
 def allForegroundAndAllBackground():

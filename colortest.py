@@ -24,7 +24,7 @@ def brightForegroundColors():
 
 # 256 Color range
 def allForegroundColors():
-    print("All 256 Colors")
+    print("All 256 Color Foregrounds")
     for i in range(0, 257):
         num = str(i)
         color = f'\033[38;5;{num}m {num} \033[0m \\033[38;5;{num}m'
@@ -73,6 +73,8 @@ def testForegroundOnBackground(foreground, background):
         print(f'\033[38;5;{foreground}m\033[48;5;{background}m{foreground} on {background} test\033[0m')
         print(f'\033[38;5;{foreground}m\033[48;5;{background}mThe quick brown fox jumps over the lazy dog. \033[0m')
         print(f'\033[38;5;{foreground}m\033[48;5;{background}mABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789\033[0m')
+    else:
+        print('Both foreground and background number must be between 0 and 256')
 
 # Print out all 256 foreground and background
 def allForegroundAndAllBackground():

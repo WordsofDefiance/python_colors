@@ -14,13 +14,15 @@
     TO DO:
 
     * Figure out a way to check the contrast between foreground and background and only
-      display the combos with high contrast.
+      display the combos with high contrast. This should be broken out into
+      a separate function.
 '''
 
 
 # Python colors
 import sys
 import argparse
+import time
 
 # Dull Colors
 def dullForegroundColors():
@@ -69,13 +71,16 @@ def allBackgroundColors():
 # Getting Crazy with it
 def allForegroundAllBackground():
     for i in range(0, 256):
+        time.sleep(0.01)
         for j in range(0, 256):
+            time.sleep(0.001)
             foreground = str(j)
             background = str(i)
             color = f'\033[38;5;{foreground}m\033[48;5;{background}m {foreground} on {background}\033[0m '
             sys.stdout.write(color.ljust(4))
             if j % 16 == 0 and j != 0:
                 print('')
+    print('All 65,536 permutations printed.')
 
 # Test out a foreground on a background
 def testForegroundOnBackground(foreground, background):

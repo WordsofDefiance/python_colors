@@ -23,6 +23,11 @@
 import sys
 import argparse
 import time
+import json
+
+from colormath.color_objects import sRGBColor, LabColor
+from colormath.color_conversions import convert_color
+from colormath.color_diff import delta_e_cie2000
 
 # Dull Colors
 def dullForegroundColors():
@@ -98,6 +103,39 @@ def allForegroundAndAllBackground():
     allForegroundColors()
     allBackgroundColors()
 
+# Helper function to load JSON
+def _getColorMap():
+    f = open('colors.json')
+    data = json.load(f)
+    # Map the ANSI code to actual color dict
+    colorsDict = {}
+    for i in data:
+        colorsDict[i['colorId']] = i
+    return colorsDict
+
+def getContrast(color1, color2):
+    colorMap = _getColorMap()
+    rgb1 = sRGBColor(
+        colorMap[color1]['rgb']['r'],
+        colorMap[color1]['rgb']['g'],
+        colorMap[color1]['rgb']['b'],
+    )
+    rgb2 = sRGBColor(
+        colorMap[color2]['rgb']['r'],
+        colorMap[color2]['rgb']['g'],
+        colorMap[color2]['rgb']['b'],
+    )
+    lab1 = convert_color(rgb1, LabColor)
+    lab2 = convert_color(rgb2, LabColor)
+
+    diff = delta_e_cie2000(lab1, lab2)
+    return diff 
+   
+
+#val1 = 1
+#val2 = 255
+#testForegroundOnBackground(val1, val2)
+#print(getContrast(val1, val2))
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='commands', dest='command')

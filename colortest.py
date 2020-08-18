@@ -103,7 +103,7 @@ def allForegroundAndAllBackground():
     allForegroundColors()
     allBackgroundColors()
 
-# Helper function to load JSON
+# Create a map of all ANSI colors and their conversions to different formats
 def _getColorMap():
     f = open('colors.json')
     data = json.load(f)
@@ -129,13 +129,7 @@ def getContrast(color1, color2):
     lab2 = convert_color(rgb2, LabColor)
 
     diff = delta_e_cie2000(lab1, lab2)
-    return diff 
-   
-
-#val1 = 1
-#val2 = 255
-#testForegroundOnBackground(val1, val2)
-#print(getContrast(val1, val2))
+    return diff
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='commands', dest='command')
@@ -151,6 +145,10 @@ allForegroundAllBackgroundParser = subparsers.add_parser('getFreaky', help='Disp
 testForegroundOnBackgroundParser = subparsers.add_parser('test', help='Enter a foreground code and a background code and test it out')
 testForegroundOnBackgroundParser.add_argument('FOREGROUND', type=int, help='foreground, must be between 0 and 256')
 testForegroundOnBackgroundParser.add_argument('BACKGROUND', type=int, help='background, must be between 0 and 256')
+
+getContrastParser = subparsers.add_parser('contrast', help='Print out a color test and get the contrast values')
+getContrastParser.add_argument('COLOR1', type=int, help='Must be between 0 and 256')
+getContrastParser.add_argument('COLOR2', type=int, help='Must be between 0 and 256')
 args = parser.parse_args()
 
 if args.command == 'dullFg':
@@ -171,5 +169,8 @@ elif args.command == 'getFreaky':
     allForegroundAllBackground()
 elif args.command == 'test':
     testForegroundOnBackground(args.FOREGROUND, args.BACKGROUND)
+elif args.command == 'contrast':
+    print(f'Difference between two colors is: {getContrast(args.COLOR1, args.COLOR2)}')
+    testForegroundOnBackground(args.COLOR1, args.COLOR2)
 else:
     parser.print_help()

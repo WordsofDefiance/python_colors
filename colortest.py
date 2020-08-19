@@ -10,12 +10,16 @@
       * Contains good explanation on how contrast gets calculated.
     * https://jonasjacek.github.io/colors/
       * contains JSON of xterm color/name/hex/rgb/hsl
+    * https://medium.muz.li/the-science-of-color-contrast-an-expert-designers-guide-33e84c41d156
+      * Good article on accessibility contrast calculations
+      * Might want to use this instead of color delta calculations
 
     TO DO:
 
     * Figure out a way to check the contrast between foreground and background and only
       display the combos with high contrast. This should be broken out into
       a separate function.
+      * This is done but maybe should use contrast calculations instead of deltas.
 '''
 
 
@@ -27,7 +31,7 @@ import json
 
 from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
-from colormath.color_diff import delta_e_cie2000
+from colormath.color_diff import delta_e_cie2000, delta_e_cie1994
 
 # Dull Colors
 def dullForegroundColors():
@@ -50,7 +54,6 @@ def allForegroundColors():
         sys.stdout.write(color.ljust(4))
         if i % 5 == 0 and i != 0:
             print('')
-
 # Background Dull Colors
 def dullBackgroundColors():
     print("Background Dull Colors")
@@ -128,8 +131,21 @@ def getContrast(color1, color2):
     lab1 = convert_color(rgb1, LabColor)
     lab2 = convert_color(rgb2, LabColor)
 
-    diff = delta_e_cie2000(lab1, lab2)
+    diff = delta_e_cie1994(lab1, lab2)
     return diff
+
+def getAllFgBgWithDiff(delta):
+    print(f'Requested Delta: {delta}')
+    for i in range(0, 256):
+        for j in range(0, 256):
+            contrast = getContrast(i,j)
+            if contrast >= 5000 and contrast <= 7500:
+                foreground = str(j)
+                background = str(i)
+                color = f'\033[38;5;{foreground}m\033[48;5;{background}m {foreground} on {background}\033[0m. Contrast: {round(contrast)}'
+                sys.stdout.write(color.ljust(4))
+
+#getAllFgBgWithDiff(7500)
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='commands', dest='command')

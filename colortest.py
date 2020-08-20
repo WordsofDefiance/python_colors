@@ -116,17 +116,28 @@ def _getColorMap():
         colorsDict[i['colorId']] = i
     return colorsDict
 
+def _getRGBDictFromANSICode(color):
+    colorMap = _getColorMap()
+    return {
+        'r': colorMap[color]['rgb']['r'],
+        'g': colorMap[color]['rgb']['g'],
+        'b': colorMap[color]['rgb']['b'],
+    }
+
+
 def getContrast(color1, color2):
     colorMap = _getColorMap()
     rgb1 = sRGBColor(
         colorMap[color1]['rgb']['r'],
         colorMap[color1]['rgb']['g'],
         colorMap[color1]['rgb']['b'],
+        True,
     )
     rgb2 = sRGBColor(
         colorMap[color2]['rgb']['r'],
         colorMap[color2]['rgb']['g'],
         colorMap[color2]['rgb']['b'],
+        True,
     )
     lab1 = convert_color(rgb1, LabColor)
     lab2 = convert_color(rgb2, LabColor)
@@ -139,13 +150,12 @@ def getAllFgBgWithDiff(delta):
     for i in range(0, 256):
         for j in range(0, 256):
             contrast = getContrast(i,j)
-            if contrast >= 5000 and contrast <= 7500:
+            if contrast >= delta:
                 foreground = str(j)
                 background = str(i)
                 color = f'\033[38;5;{foreground}m\033[48;5;{background}m {foreground} on {background}\033[0m. Contrast: {round(contrast)}'
                 sys.stdout.write(color.ljust(4))
 
-#getAllFgBgWithDiff(7500)
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='commands', dest='command')
@@ -186,6 +196,8 @@ elif args.command == 'getFreaky':
 elif args.command == 'test':
     testForegroundOnBackground(args.FOREGROUND, args.BACKGROUND)
 elif args.command == 'contrast':
+    print(_getRGBDictFromANSICode(args.COLOR1))
+    print(_getRGBDictFromANSICode(args.COLOR2))
     print(f'Difference between two colors is: {getContrast(args.COLOR1, args.COLOR2)}')
     testForegroundOnBackground(args.COLOR1, args.COLOR2)
 else:

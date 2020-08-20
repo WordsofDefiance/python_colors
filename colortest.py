@@ -175,6 +175,11 @@ testForegroundOnBackgroundParser.add_argument('BACKGROUND', type=int, help='back
 getContrastParser = subparsers.add_parser('contrast', help='Print out a color test and get the contrast values')
 getContrastParser.add_argument('COLOR1', type=int, help='Must be between 0 and 256')
 getContrastParser.add_argument('COLOR2', type=int, help='Must be between 0 and 256')
+
+printContrastParser = subparsers.add_parser('filterContrast', help='Print out all the combos that meet a given delta.')
+printContrastParser.add_argument('DELTA', type=int, help='Pick a color delta')
+
+
 args = parser.parse_args()
 
 if args.command == 'dullFg':
@@ -200,5 +205,7 @@ elif args.command == 'contrast':
     print(_getRGBDictFromANSICode(args.COLOR2))
     print(f'Difference between two colors is: {getContrast(args.COLOR1, args.COLOR2)}')
     testForegroundOnBackground(args.COLOR1, args.COLOR2)
+elif args.command == 'filterContrast':
+    getAllFgBgWithDiff(args.DELTA)
 else:
     parser.print_help()

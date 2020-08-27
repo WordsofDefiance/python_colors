@@ -13,6 +13,8 @@
     * https://medium.muz.li/the-science-of-color-contrast-an-expert-designers-guide-33e84c41d156
       * Good article on accessibility contrast calculations
       * Might want to use this instead of color delta calculations
+      * https://www.w3.org/TR/WCAG20/#relativeluminancedef
+        * How WCAG defines contrast
 
     TO DO:
 
@@ -156,6 +158,16 @@ def getAllFgBgWithDiff(delta):
                 color = f'\033[38;5;{foreground}m\033[48;5;{background}m {foreground} on {background}\033[0m. Contrast: {round(contrast)}'
                 sys.stdout.write(color.ljust(4))
 
+def printColorsByDeltaOnBg(background, delta):
+    print(f'Printing all foreground colors that are delta {delta} on background {background}')
+    for i in range(0, 256):
+        contrast = getContrast(i, background)
+        if contrast >= delta:
+            foreground = str(i)
+            _background = str(background)
+            color = f'\033[38;5;{foreground}m\033[48;5;{_background}m {foreground} on {_background}\033[0m. Delta: {round(delta)}'
+            sys.stdout.write(color.ljust(4))
+
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(title='commands', dest='command')
@@ -178,6 +190,10 @@ getContrastParser.add_argument('COLOR2', type=int, help='Must be between 0 and 2
 
 printContrastParser = subparsers.add_parser('filterContrast', help='Print out all the combos that meet a given delta.')
 printContrastParser.add_argument('DELTA', type=int, help='Pick a color delta')
+
+printColorsByDeltaParser = subparsers.add_parser('printGoodContrasts', help='Print out all the combos on a certain bg of a specified delta.')
+printColorsByDeltaParser.add_argument('BACKGROUND', type = int, help='background, must be between 0 and 255')
+printColorsByDeltaParser.add_argument('DELTA', type = int, help='Delta, the specified difference level between colors')
 
 
 args = parser.parse_args()
@@ -207,5 +223,7 @@ elif args.command == 'contrast':
     testForegroundOnBackground(args.COLOR1, args.COLOR2)
 elif args.command == 'filterContrast':
     getAllFgBgWithDiff(args.DELTA)
+elif args.command == 'printGoodContrasts':
+    printColorsByDeltaOnBg(args.BACKGROUND, args.DELTA)
 else:
     parser.print_help()

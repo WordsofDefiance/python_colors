@@ -1,4 +1,4 @@
-#!/Users/accomazzod/Projects/web/python_colors/bin/python3
+#!/home/david/projects/python_colors/bin/python3
 ''' Resources
 
     * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
@@ -18,10 +18,8 @@
 
     TO DO:
 
-    * Figure out a way to check the contrast between foreground and background and only
-      display the combos with high contrast. This should be broken out into
-      a separate function.
-      * This is done but maybe should use contrast calculations instead of deltas.
+    Convert to using WCAG contrast definitions instead of delta calcs
+
 '''
 
 

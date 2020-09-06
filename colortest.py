@@ -163,7 +163,7 @@ def printColorsByDeltaOnBg(background, delta):
         if contrast >= delta:
             foreground = str(i)
             _background = str(background)
-            color = f'\033[38;5;{foreground}m\033[48;5;{_background}m {foreground} on {_background}\033[0m. Delta: {round(contrast)}'
+            color = f'\033[38;5;{foreground}m\033[48;5;{_background}m {foreground} on {_background}\033[0m. Delta: {round(contrast)} '
             sys.stdout.write(color.ljust(4))
 
 

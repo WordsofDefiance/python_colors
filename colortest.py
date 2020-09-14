@@ -33,20 +33,14 @@ from colormath.color_diff import delta_e_cie2000, delta_e_cie1994
 def dullForegroundColors():
     print("Standard (Dull) Colors")
     for i in range(30, 38):
-        print("\033[{}m {} \033[0m \\033[{}m".format(i, i, i))
+        print(f"\033[{i}m {i} \033[0m \\033[{i}m")
 
 
 # Bright Colors
 def brightForegroundColors():
     print("Bright Colors")
     for i in range(30, 38):
-        print(
-            "\033[{};1m {} \033[0m \\033[{};1m".format(
-                i,
-                i,
-                i,
-            )
-        )
+        print(f"\033[{i};1m {i} \033[0m \\033[{i};1m")
 
 
 # 256 Color range

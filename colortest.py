@@ -1,4 +1,4 @@
-#!/Users/accomazzod/Projects/web/python_colors/bin/python3
+#!/home/david/projects/python_colors/bin/python3
 """ Resources
     * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
       * Good resource on how to manipulate terminal commands with Python

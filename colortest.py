@@ -1,4 +1,4 @@
-#!/home/david/projects/python_colors/bin/python3
+#!/Users/davidaccomazzo/Projects/python_colors/bin/python
 """ Resources
     * https://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
       * Good resource on how to manipulate terminal commands with Python
@@ -24,6 +24,7 @@ import sys
 import argparse
 import time
 import json
+import os
 
 from colormath.color_objects import sRGBColor, LabColor
 from colormath.color_conversions import convert_color
@@ -122,7 +123,7 @@ def allForegroundAndAllBackground():
 
 # Create a map of all ANSI colors and their conversions to different formats
 def _getColorMap():
-    f = open("colors.json")
+    f = open(os.path.dirname(os.path.realpath(__file__)) + "/colors.json")
     data = json.load(f)
     # Map the ANSI code to actual color dict
     colorsDict = {}
